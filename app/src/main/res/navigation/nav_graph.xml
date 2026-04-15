@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@+id/navigation_characters">
+    app:startDestination="@id/welcomeFragment">
 
     <fragment
         android:id="@+id/navigation_worlds"
@@ -22,4 +22,11 @@
         android:name="dam.pmdm.spyrothedragon.ui.CollectiblesFragment"
         android:label="@string/collectibles"
         tools:layout="@layout/fragment_collectibles" />
+
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="dam.pmdm.spyrothedragon.ui.WelcomeFragment"
+        android:label="Welcome"
+        tools:layout="@layout/fragment_welcome" />
+
 </navigation>

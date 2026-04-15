@@ -6,4 +6,8 @@
     <string name="title_about">Acerca de</string>
     <string name="text_about">Aplicación desarrollada por \n <b>Miriam Serrano Gómez.</b></string>
     <string name="accept">Aceptar</string>
+    <string name="bienvenido">BIENVENIDO</string>
+    <string name="texto_inincio">Prepárate para explorar el mundo mágico de Spyro</string>
+    <string name="comenzar">Comenzar</string>
+    <string name="Explicacion_pestania_Personajes">Aquí podrás explorar a todos los personajes del mundo de Spyro.</string>
 </resources>
