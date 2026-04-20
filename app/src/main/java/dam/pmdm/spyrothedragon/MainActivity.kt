@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import dam.pmdm.spyrothedragon.databinding.ActivityMainBinding
 import dam.pmdm.spyrothedragon.databinding.GuideBinding
+import android.view.animation.AnimationUtils
 
 class MainActivity : AppCompatActivity() {
 
@@ -80,6 +81,12 @@ class MainActivity : AppCompatActivity() {
             .alpha(1f)
             .setDuration(1000)
             .start()
+
+        //Animación círculo
+        val pulse = guideBinding.pulseImage
+
+        val anim = AnimationUtils.loadAnimation(this, R.anim.pulse_scale)
+        pulse.startAnimation(anim)
     }
 
     private fun selectedBottomMenu(menuItem: MenuItem): Boolean {
