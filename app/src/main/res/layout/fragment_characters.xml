@@ -13,29 +13,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Fondo sombreado -->
-    <View
-        android:id="@+id/fondo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_fondo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Bocadillo -->
-    <TextView
-        android:id="@+id/tvInfo"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_margin="0dp"
-        android:background="@drawable/bg_bubble"
-        android:padding="16dp"
-        android:text="@string/Explicacion_pestania_Personajes"
-        android:textColor="#000000"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

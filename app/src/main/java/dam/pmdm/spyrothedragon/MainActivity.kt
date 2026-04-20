@@ -3,6 +3,7 @@ package dam.pmdm.spyrothedragon
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -10,10 +11,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import dam.pmdm.spyrothedragon.databinding.ActivityMainBinding
+import dam.pmdm.spyrothedragon.databinding.GuideBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var guideBinding: GuideBinding
     private var navController: NavController? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        guideBinding = binding.guideInclude
         val navHostFragment: Fragment? =
             supportFragmentManager.findFragmentById(R.id.navHostFragment)
 
@@ -34,8 +38,20 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setOnItemSelectedListener { menuItem ->
             selectedBottomMenu(menuItem)
         }
+        // inicializo guia
+        initializeGuide()
 
         navController?.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+
+                R.id.navigation_characters -> {
+                    guideBinding.guideLayout.visibility = View.VISIBLE
+                }
+
+                else -> {
+                    guideBinding.guideLayout.visibility = View.GONE
+                }
+            }
             when (destination.id) {
                 R.id.navigation_characters,
                 R.id.navigation_worlds,
@@ -43,6 +59,7 @@ class MainActivity : AppCompatActivity() {
                     // En las pantallas de los tabs no mostramos la flecha atrás
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }
+
                 else -> {
                     // En el resto de pantallas sí
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -51,12 +68,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun initializeGuide() {
+
+        // Botón cerrar
+        guideBinding.exitGuide.setOnClickListener {
+            guideBinding.guideLayout.visibility = View.GONE
+        }
+
+        // Animación texto
+        guideBinding.textStep.animate()
+            .alpha(1f)
+            .setDuration(1000)
+            .start()
+    }
+
     private fun selectedBottomMenu(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.nav_characters ->
                 navController?.navigate(R.id.navigation_characters)
+
             R.id.nav_worlds ->
                 navController?.navigate(R.id.navigation_worlds)
+
             else ->
                 navController?.navigate(R.id.navigation_collectibles)
         }
