@@ -14,9 +14,6 @@
         android:id="@+id/pulseImage"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_gravity="bottom|start"
-        android:layout_marginStart="-70dp"
-        android:layout_marginBottom="-70dp"
         android:src="@drawable/pulse" />
 
 
@@ -32,9 +29,19 @@
         android:gravity="center"
         android:maxLines="5"
         android:padding="20dp"
-        android:text="Aquí podrás explorar a todos los personajes del mundo de Spyro."
+        android:text=""
         android:textColor="@color/white"
         android:textSize="26sp" />
+
+    <!-- botón siguiente guía -->
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="16dp"
+        android:background="@color/blue"
+        android:text="Siguiente" />
 
     <!-- boton saltar guía-->
     <android.widget.Button
@@ -49,4 +56,5 @@
         android:textAllCaps="false"
         android:textColor="@color/blue"
         android:textSize="20dp" />
+
 </FrameLayout>

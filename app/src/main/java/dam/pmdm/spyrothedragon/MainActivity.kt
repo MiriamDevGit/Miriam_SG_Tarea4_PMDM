@@ -1,6 +1,7 @@
 package dam.pmdm.spyrothedragon
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,12 +14,17 @@ import androidx.navigation.ui.NavigationUI
 import dam.pmdm.spyrothedragon.databinding.ActivityMainBinding
 import dam.pmdm.spyrothedragon.databinding.GuideBinding
 import android.view.animation.AnimationUtils
+import android.widget.FrameLayout
+import android.os.Handler
+import android.os.Looper
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var guideBinding: GuideBinding
     private var navController: NavController? = null
+
+    private var step = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +82,18 @@ class MainActivity : AppCompatActivity() {
             guideBinding.guideLayout.visibility = View.GONE
         }
 
+        // botón siguiente
+        guideBinding.btnNext.setOnClickListener {
+
+            step++
+
+            if (step <= 4) {
+                updateGuideStep()
+            } else {
+                guideBinding.guideLayout.visibility = View.GONE
+            }
+        }
+
         // Animación texto
         guideBinding.textStep.animate()
             .alpha(1f)
@@ -87,6 +105,89 @@ class MainActivity : AppCompatActivity() {
 
         val anim = AnimationUtils.loadAnimation(this, R.anim.pulse_scale)
         pulse.startAnimation(anim)
+
+        // Actualizar guía
+        /*val handler = Handler(Looper.getMainLooper())
+
+        val runnable = object : Runnable {
+            override fun run() {
+
+                updateGuideStep()
+
+                step++
+
+                if (step <= 4) {
+                    handler.postDelayed(this, 4000)
+                } else {
+                    guideBinding.exitGuide.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        handler.postDelayed(runnable, 7000)*/
+
+        step = 0
+        updateGuideStep()
+    }
+
+    private fun updateGuideStep() {
+
+        val params = guideBinding.pulseImage.layoutParams as FrameLayout.LayoutParams
+
+        guideBinding.pulseImage.clearAnimation()
+
+        //resetear margenes
+        params.setMargins(0, 0, 0, 0)
+
+        when (step) {
+
+            0 -> {
+                guideBinding.pulseImage.visibility = View.VISIBLE
+                guideBinding.pulseImage.startAnimation(
+                    AnimationUtils.loadAnimation(this, R.anim.pulse_scale)
+                )
+                guideBinding.textStep.text = "Aquí podrás explorar los personajes"
+                params.gravity = Gravity.BOTTOM or Gravity.START
+                params.setMargins(-150, 0, 0, -150)
+            }
+
+            1 -> {
+                guideBinding.pulseImage.visibility = View.VISIBLE
+                guideBinding.pulseImage.startAnimation(
+                    AnimationUtils.loadAnimation(this, R.anim.pulse_scale)
+                )
+                guideBinding.textStep.text = "Aquí puedes ver los mundos"
+                params.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+                params.setMargins(0, 0, 0, -150)
+            }
+
+            2 -> {
+                guideBinding.pulseImage.visibility = View.VISIBLE
+                guideBinding.pulseImage.startAnimation(
+                    AnimationUtils.loadAnimation(this, R.anim.pulse_scale)
+                )
+                guideBinding.textStep.text = "Aquí están los coleccionables"
+                params.gravity = Gravity.BOTTOM or Gravity.END
+                params.setMargins(0, 0, -150, -150)
+            }
+
+            3 -> {
+                guideBinding.pulseImage.visibility = View.VISIBLE
+                guideBinding.pulseImage.startAnimation(
+                    AnimationUtils.loadAnimation(this, R.anim.pulse_scale)
+                )
+                guideBinding.textStep.text = "Pulsa aquí para más información"
+                params.gravity = Gravity.TOP or Gravity.END
+                params.setMargins(0, -150, -150, 0)
+            }
+
+            4 -> {
+                guideBinding.textStep.text = "Ya estás listo para usar la app"
+                guideBinding.pulseImage.visibility = View.GONE
+            }
+        }
+
+        guideBinding.pulseImage.layoutParams = params
     }
 
     private fun selectedBottomMenu(menuItem: MenuItem): Boolean {
