@@ -31,9 +31,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         prefs = getSharedPreferences("guide_prefs", MODE_PRIVATE)
-
+        //prefs.edit().clear().apply() //para probar
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -126,26 +125,6 @@ class MainActivity : AppCompatActivity() {
         val anim = AnimationUtils.loadAnimation(this, R.anim.pulse_scale)
         pulse.startAnimation(anim)
 
-        // Actualizar guía
-        /*val handler = Handler(Looper.getMainLooper())
-
-        val runnable = object : Runnable {
-            override fun run() {
-
-                updateGuideStep()
-
-                step++
-
-                if (step <= 4) {
-                    handler.postDelayed(this, 4000)
-                } else {
-                    guideBinding.exitGuide.visibility = View.VISIBLE
-                }
-            }
-        }
-
-        handler.postDelayed(runnable, 7000)*/
-
         step = 0
         updateGuideStep()
     }
@@ -167,6 +146,9 @@ class MainActivity : AppCompatActivity() {
                     AnimationUtils.loadAnimation(this, R.anim.pulse_scale)
                 )
                 guideBinding.textStep.text = "Aquí podrás explorar los personajes"
+                guideBinding.textStep.startAnimation(
+                    AnimationUtils.loadAnimation(this, R.anim.deslizar)
+                )
                 params.gravity = Gravity.BOTTOM or Gravity.START
                 params.setMargins(-150, 0, 0, -150)
             }
@@ -177,6 +159,9 @@ class MainActivity : AppCompatActivity() {
                     AnimationUtils.loadAnimation(this, R.anim.pulse_scale)
                 )
                 guideBinding.textStep.text = "Aquí puedes ver los mundos"
+                guideBinding.textStep.startAnimation(
+                    AnimationUtils.loadAnimation(this, R.anim.rebotar)
+                )
                 params.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
                 params.setMargins(0, 0, 0, -150)
             }
@@ -187,6 +172,9 @@ class MainActivity : AppCompatActivity() {
                     AnimationUtils.loadAnimation(this, R.anim.pulse_scale)
                 )
                 guideBinding.textStep.text = "Aquí están los coleccionables"
+                guideBinding.textStep.startAnimation(
+                    AnimationUtils.loadAnimation(this, R.anim.deslizar)
+                )
                 params.gravity = Gravity.BOTTOM or Gravity.END
                 params.setMargins(0, 0, -150, -150)
             }
@@ -197,6 +185,9 @@ class MainActivity : AppCompatActivity() {
                     AnimationUtils.loadAnimation(this, R.anim.pulse_scale)
                 )
                 guideBinding.textStep.text = "Pulsa aquí para más información"
+                guideBinding.textStep.startAnimation(
+                    AnimationUtils.loadAnimation(this, R.anim.rebotar)
+                )
                 params.gravity = Gravity.TOP or Gravity.END
                 params.setMargins(0, -150, -150, 0)
             }
