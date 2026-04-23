@@ -18,6 +18,8 @@ import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.os.Handler
 import android.os.Looper
+import android.media.AudioAttributes
+import android.media.SoundPool
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +30,9 @@ class MainActivity : AppCompatActivity() {
     private var step = 0
 
     private lateinit var prefs: SharedPreferences
+
+    private lateinit var soundPool: SoundPool
+    private var soundNext = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +91,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_GAME)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
+
+        soundPool = SoundPool.Builder()
+            .setMaxStreams(1)
+            .setAudioAttributes(audioAttributes)
+            .build()
+
+        // Cargar sonido
+        soundNext = soundPool.load(this, R.raw.sonido, 1)
     }
 
     private fun initializeGuide() {
@@ -100,6 +117,9 @@ class MainActivity : AppCompatActivity() {
 
         // botón siguiente
         guideBinding.btnNext.setOnClickListener {
+
+            //sonido
+            soundPool.play(soundNext, 1f, 1f, 1, 0, 1f)
 
             step++
 
@@ -235,5 +255,10 @@ class MainActivity : AppCompatActivity() {
             .setMessage(R.string.text_about)
             .setPositiveButton(R.string.accept, null)
             .show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        soundPool.release()
     }
 }
