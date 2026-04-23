@@ -1,5 +1,6 @@
 package dam.pmdm.spyrothedragon
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
@@ -26,8 +27,12 @@ class MainActivity : AppCompatActivity() {
 
     private var step = 0
 
+    private lateinit var prefs: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        prefs = getSharedPreferences("guide_prefs", MODE_PRIVATE)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -49,16 +54,24 @@ class MainActivity : AppCompatActivity() {
         initializeGuide()
 
         navController?.addOnDestinationChangedListener { _, destination, _ ->
+
+            val guideCompleted = prefs.getBoolean("guide_completed", false)
+
             when (destination.id) {
 
                 R.id.navigation_characters -> {
-                    guideBinding.guideLayout.visibility = View.VISIBLE
+
+                    if (!guideCompleted) {
+                        guideBinding.guideLayout.visibility = View.VISIBLE
+                    }
                 }
 
                 else -> {
                     guideBinding.guideLayout.visibility = View.GONE
                 }
             }
+
+            // Flecha atrás
             when (destination.id) {
                 R.id.navigation_characters,
                 R.id.navigation_worlds,
@@ -73,12 +86,16 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
     private fun initializeGuide() {
 
         // Botón cerrar
         guideBinding.exitGuide.setOnClickListener {
+
+            prefs.edit().putBoolean("guide_completed", true).apply()
+
             guideBinding.guideLayout.visibility = View.GONE
         }
 
@@ -90,6 +107,9 @@ class MainActivity : AppCompatActivity() {
             if (step <= 4) {
                 updateGuideStep()
             } else {
+
+                prefs.edit().putBoolean("guide_completed", true).apply()
+
                 guideBinding.guideLayout.visibility = View.GONE
             }
         }
